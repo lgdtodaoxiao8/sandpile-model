@@ -25,6 +25,7 @@ public:
     twoAxesGrid(const twoAxesGrid & other);
     twoAxesGrid(char* outputDirectory);
     ~twoAxesGrid();
+
     twoAxesGrid & operator = (twoAxesGrid && other);
     twoAxesGrid & operator = (const twoAxesGrid & other);
 

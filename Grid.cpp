@@ -100,7 +100,6 @@ void twoAxesGrid::update() {
     bool increaseUp = false, increaseDown = false,
     increaseLeft = false, increaseRight = false;
 
-
     for (int i = 0; i < height; ++i) {
         for (int j = 0; j < width; ++j) {
             if (twoAxesArray[i][j] > 3) {

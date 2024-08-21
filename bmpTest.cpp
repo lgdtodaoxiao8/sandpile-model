@@ -89,25 +89,7 @@ void fillBMP(const twoAxesGrid & grid, int numberIncrease) {
             }
         }
     }
-    // pixelData[0] = (3 << 4) | 4;
-    // pixelData[1] = (4 << 4) | 4;
-    // pixelData[2] = (4 << 4);
-    //
-    // pixelData[rowSize] = (3 << 4) | 3;
-    // pixelData[rowSize + 1] = (3 << 4) | 3;
-    // pixelData[rowSize + 2] = (3 << 4);
-    //
-    // pixelData[2 * rowSize] = (4 << 4) | 4;
-    // pixelData[2 * rowSize + 1] = (4 << 4) | 4;
-    // pixelData[2 * rowSize + 2] = (4 << 4);
-    //
-    // pixelData[3 * rowSize] = (3 << 4) | 3;
-    // pixelData[3 * rowSize + 1] = (3 << 4) | 3;
-    // pixelData[3 * rowSize + 2] = (3 << 4);
-    //
-    // pixelData[4 * rowSize] = (4 << 4) | 4;
-    // pixelData[4 * rowSize + 1] = (4 << 4) | 4;
-    // pixelData[4 * rowSize + 2] = (4 << 4);
+
     std::string direct = grid.bmpDirect;
     std::string filename = direct + "output" + std::to_string(numberIncrease) + ".bmp";
 
