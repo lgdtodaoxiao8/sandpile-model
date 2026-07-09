@@ -1,67 +1,37 @@
-[![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-718a45dd9cf7e7f842a935f5ebbe5719a5e09af4491e668f4dbf3b35d5cca122.svg)](https://classroom.github.com/online_ide?assignment_repo_id=12772419&assignment_repo_type=AssignmentRepo)
-# Лабораторная работа 3
+# Sandpile Model (Abelian Sandpile)
 
-## Задача
+A C++ command-line tool that simulates the [Abelian sandpile model](https://en.wikipedia.org/wiki/Abelian_sandpile_model)
+and renders each state as a BMP image. The grid grows dynamically as the sand topples and
+spreads, so the output size adapts to the simulation.
 
-Реализовать упрощенную [модель песчаной кучи](https://en.wikipedia.org/wiki/Abelian_sandpile_model), которая позволяет сохранять свои состояния в картинку в [формате BMP](https://en.wikipedia.org/wiki/BMP_file_format).
+## What it does
 
-Изначальное состояние задается входным файлом.
+- Reads an initial grid state from a TSV file (tab-separated values)
+- Runs the sandpile toppling rule until the system stabilizes
+- Dynamically resizes the grid as sand spreads beyond the original bounds
+- Saves states as BMP images (final state, or every N iterations)
 
-Размер сетки может изменяться в процессе работы программы.
+## Command-line arguments
 
-Реализация - консольное приложение, поддерживающее следующие аргументы командной строки:
+| Flag | Long form   | Description                                   |
+|------|-------------|-----------------------------------------------|
+| `-i` | `--input`   | Input TSV file with the initial grid          |
+| `-o` | `--output`  | Output directory for the generated BMP images |
+| `-m` | `--max`     | Maximum number of iterations                  |
+| `-f` | `--freq`    | Save an image every N iterations (0 = final only) |
 
-  **-i, --input**    - [tsv-файл](https://en.wikipedia.org/wiki/Tab-separated_values) (tab-separated values) c начальными данными
 
-  **-o, --output**   - путь к директории для сохранения картинок
+## What this shows
 
-  **-m, --max-iter** - максимальное количество итераций модели
+- Working in C++ with files, dynamic 2D grids, and manual memory/layout control
+- Implementing a real algorithm from a spec, not a tutorial
+- Writing a binary file format (BMP) by hand
+- Building a proper CLI with arguments
 
-  **-f, --freq**     - частота, с которой должны сохранятся картинки (если 0, то сохраняется только последнее состояние)
+## Build & run
 
-## Начальное состояние
-
-Начальное состояние задается файлом со значением количества песчинок в каждой ячейке, кроме пустых. Размер сетки следует рассчитать на основании этих данных - минимальный прямоугольник в который попадают все ячейки.
-
-Формат файла:
-Каждая строчка содержит информацию об одной ячейке, в виде (x-координаты, y-координаты, количество песчинок), разделенных символом табуляции. Количество песчинок гарантированно влезет в `uint64_t`, координаты гарантированно влезают в `int16_t`
-
-## Примечания к модели
-
-1. Новые песчинки добавляются только при инициализации.
-
-2. Состояние следующего поколения ячеек зависит только от предыдущего состояния сетки.
-
-3. В случае если песчинки пытаются обвалиться за границу сетки, ее размер увеличивается на 1 в соответствующую сторону.
-
-## Результат работы - программа
-
-Программа должна пересчитывать состояние модели согласно начальным данным, а также сохранять промежуточные состояния с заданной частотой в виде картинки в формате bmp.
-
-Картинка для текущего состояния формируется по следующим правилам:
-
-1. Размер картинки равен размеру поля.
-
-2. Каждый пиксель соответствует ячейке поля.
-
-3. Цвет пикселя зависит от количества песчинок в ячейке.
-
-    + 0 - белый
-    + 1 - зеленый
-    + 2 - желтый
-    + 3 - фиолетовый
-    + \> 3 - черный
-
-4. Кодирование 1 пикселя должно занимать не более 4 бит.
-
-Программа должна закончить свою работу в случае если модель достигла стабильного состояния, либо номера заданной изначально итерации.
-
-## Ограничения
-
-1. Пользовать сторонними библиотеками, кроме стандартной, запрещено. В частности это означает, что Вы должны *сами* спроектировать и реализовать функции для работы с картинками в формате bmp.
-
-## Примечание
-
-1. Для реализации Вам может пригодиться [библиотека](https://en.cppreference.com/w/cpp/filesystem) для работы с файловой системой из стандартной библиотеки.
-2. В данной лабе Вам дано только описание. Структура проекта и организация сборки также ваша задача. Использовать для сборки не cmake - запрещено.
-3. Важно помнить, что размер структуры может быть не равен сумме размеров ее полей за счет [выравнивания](https://en.cppreference.com/w/c/language/object). Данную проблему можно решить за счет [директив препроцессора](https://en.cppreference.com/w/cpp/preprocessor/impl).
+```bash
+# with CMake
+cmake -B build && cmake --build build
+./build/sandpile --input start.tsv --output ./out --max 1000
+```
